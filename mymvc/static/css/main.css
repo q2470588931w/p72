@@ -1,0 +1,39 @@
+*{
+    margin: 0px auto;
+}
+.main{
+    position: relative;
+    top:20px;
+    width: 40%;
+    height: 400px;
+
+}
+.main_left{
+    width: 20%;
+    height: 100%;
+    float: left;
+    padding-right: 10px;
+    border-left: 1px solid lightskyblue;
+}
+.main_right{
+    float: left;
+    width: 49%;
+    height: 99%;
+
+}
+.main_left li{
+    list-style-type:none;
+    text-align: right;
+    height: 24px;
+}
+.main_right li{
+    list-style-type:none;
+    text-align: left;
+    height: 24px;
+    font-size: 12px;
+    width: 300px;
+}
+.main_right input{
+    border-radius:5px;
+    height: 20px;
+}
