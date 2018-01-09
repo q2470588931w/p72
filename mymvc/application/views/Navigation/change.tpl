@@ -1,1 +1,0 @@
- 栏目位置:<input type="text" id="name">

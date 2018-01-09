@@ -1,0 +1,60 @@
+
+<meta charset="utf-8">
+
+
+<form action="./photoBg/photoUp.php" method="post" style="margin: 50px" enctype="multipart/form-data">
+    上传照片： <div id="file"><input type="file" name="files[]" /><button type="button" onclick="jia(this)">+</button></div><br/>
+    选择相册： <select name="photosName">
+                    <?php
+
+    $link=mysqli_connect('localhost','root','root','work');
+if(mysqli_connect_errno()){
+exit('数据库连接失败'.mysqli_connect_error());
+}
+mysqli_set_charset($link,'utf8');
+    $result=mysqli_query($link,"select aname from album where id={$_SESSION['id']}");
+    $rows = mysqli_fetch_all($result);
+    /*print_r($rows);
+    exit;*/
+    mysqli_close($link);
+    foreach($rows as $val){
+                    echo "<option value='$val[0]'>$val[0]</option>";
+                    }?>
+                </select><br/>
+
+    是否打印水印： <input type="radio" name="water" value="是" onclick="openW()" >是<input type="radio" name="water" value="否" onclick="closeW()" checked>否<br/>
+    <div id="water" style="display: none">
+     <!--   <?php
+    $otl=[x=>20,y=>20];
+        $tll=[x=>$imgXY[0]-20,y=>$imgXY[1]-20];
+        ?>-->
+
+        水印位置： <select name="position">
+        <option value="1">左上</option>
+        <option value="2">左下</option>
+        <option value="3">右上</option>
+        <option value="4">右下</option>
+    </select><br/>
+        水印内容： <input type="text" name="cont" placeholder="请输入中文或数字"><br/>
+    </div>
+
+    <input type="submit" value="添加" />
+</form>
+
+<script>
+    function openW() {
+        var wat = document.getElementById('water');
+        wat.style.display='block';
+    }
+    function closeW() {
+        var wat = document.getElementById('water');
+        wat.style.display='none';
+    }
+    function jia(o) {
+        var fa=o.previousSibling;
+//        console.log(fa);
+        var fil = document.getElementById('file');
+        var mycl = fa.cloneNode(true);
+        fil.appendChild(mycl);
+    }
+</script>

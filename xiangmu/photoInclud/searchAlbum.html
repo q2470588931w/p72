@@ -1,0 +1,54 @@
+<style>
+    #album{
+        margin: 20px;
+        width: 98%;
+        height: 98%;
+    }
+    #album img{
+        width: 150px;
+        height: 150px;
+        margin: 20px;
+    }
+</style>
+
+<?php
+    $photoName=$_GET['photoName'];
+    $link=mysqli_connect('localhost','root','root','work');
+if(mysqli_connect_errno()){
+exit('数据库连接失败'.mysqli_connect_error());
+}
+mysqli_set_charset($link,'utf8');
+    $sql="select aname,url from album left join users on album.id=users.id left join photo on album.aid=photo.aid where alname='{$photoName}'";
+    $result=mysqli_query($link,$sql);
+    $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
+    /*echo "<pre>";
+print_r($rows);*/
+mysqli_close($link);
+$aname=null;
+?>
+<div id="album">
+    <?php foreach($rows as $val):
+        if($aname != $val['aname']):
+    ?>
+    <a href="?right=2&aname=<?php echo $val['aname']?>" style="float: left">
+        <?php if($val['url']){
+        echo "<img src=.".trim($val['url'],'.')."><br/>";
+        }else{
+        echo "<div>你还没有图片</div>";
+        }?>
+
+        <?php echo $val['aname']?>
+    </a>
+
+    <?php endif;
+        $aname=$val['aname'];
+     endforeach;?>
+</div>
+
+<script>
+    function sees(_this){
+        var chils= _this.childNodes[4];
+
+        console.log(chils);
+    }
+</script>

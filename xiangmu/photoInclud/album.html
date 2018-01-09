@@ -1,0 +1,76 @@
+<style>
+    #album{
+        margin: 20px;
+        width: 98%;
+        height: 98%;
+    }
+    #album img{
+        width: 150px;
+        height: 150px;
+        margin: 20px;
+    }
+    #xiao{
+        width: 200px;
+        height: 230px;
+        float: left;
+    }
+    #xiao a{
+        margin-right: 10px;
+
+    }
+</style>
+
+<?php
+    $link=mysqli_connect('localhost','root','root','work');
+if(mysqli_connect_errno()){
+exit('数据库连接失败'.mysqli_connect_error());
+}
+mysqli_set_charset($link,'utf8');
+    $sql="select aname,url from album left join users on album.id=users.id left join photo on album.aid=photo.aid where phone={$_SESSION['user']}";
+    $result=mysqli_query($link,$sql);
+    $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
+    /*echo "<pre>";
+    print_r($rows);*/
+$link=mysqli_connect('localhost','root','root','work');
+if(mysqli_connect_errno()){
+    exit('数据库连接失败'.mysqli_connect_error());
+}
+mysqli_set_charset($link,'utf8');
+    $aname=null;
+?>
+<div id="album">
+    <?php foreach($rows as $val):
+        if($aname != $val['aname']):
+    ?>
+    <div onmousemove='chulai(this)' onmouseout='list(this)' id="xiao">
+            <?php if($val['url']){
+        echo "<img src=.".trim($val['url'],'.').">";
+            }else{
+            echo "<div style='border: 1px solid black;width: 150px;height: 150px; '>你还没有图片</div>";
+            }?>
+        <a href="?right=2&aname=<?php echo $val['aname']?>" style="float: left;display: none;">查看</a><a href="./photoBg/dropAlbum.php?aname=<?php echo $val['aname']?>" style="float: left;display: none;">删除</a><br>
+        <span><?php echo $val['aname']?></span>
+
+    </div>
+    <?php endif;
+        $aname=$val['aname'];
+        endforeach;?>
+
+</div>
+
+<script>
+    function chulai(o){
+        var first_one= o.childNodes[3];
+        var next_one= o.childNodes[4];
+        first_one.style.display='block';
+        next_one.style.display='block';
+
+    }
+    function list(o){
+        var first_one= o.childNodes[3];
+        var next_one= o.childNodes[4];
+        first_one.style.display='none';
+        next_one.style.display='none';
+    }
+
+</script>
